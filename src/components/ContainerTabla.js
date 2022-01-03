@@ -2,10 +2,12 @@ import styled from 'styled-components'
 
 const ContainerTabla = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
     justify-content: center;
-    height: 100%;
     align-items: center;
+    width: auto;
+    flex-directi
 `
 
 export default ContainerTabla

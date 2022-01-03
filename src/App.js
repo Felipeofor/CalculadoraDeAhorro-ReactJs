@@ -86,20 +86,17 @@ function App() {
           </Formik>
         </Section>
          <ContainerTabla>
-          {balance.length > 0 ? <div>
-            {balance.map(item => 
-              <ul key= {Math.random()}>
-                <li>Referencia:{item.referencia}</li>
-                <li>Deposito:{item.deposito}</li>
-                <li>Para toda la vida:{item.paraTodaLaVida}</li>
-                <li>Gastos Basicos:{item.gastosBasicos}</li>
-                <li>Gustos de corto plazo{item.gastosCortoPlazo}</li>
-                <li>Gustos de largo plazo:{item.gastosLargoPlazo}</li>
-                <li>Emergencias: {item.emergencias}</li>
-              </ul>
+            {balance.map(item => <Card
+              key={Math.random()}
+              referencia = {item.referencia}
+              deposito = {item.deposito}
+              paraTodaLaVida = {item.paraTodaLaVida}
+              gastosBasicos = {item.gastosBasicos}
+              gastosCortoPlazo = {item.gastosCortoPlazo}
+              gastosLargoPlazo = {item.gastosLargoPlazo}
+              emergencias = {item.emergencias}
+            />
             )}
-          </div> : ""}
-          <Card/>
         </ContainerTabla>
       </Container>
     </div>
