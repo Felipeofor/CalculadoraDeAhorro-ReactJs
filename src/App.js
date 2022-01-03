@@ -5,9 +5,9 @@ import Input from './components/Input';
 import Button from './components/Button.js';
 import Container from './components/Container.js'
 import Section from './components/Section.js'
-import Tabla from './components/Tabla.js';
 import Navbar from './components/Navbar.js'
 import ContainerTabla from './components/ContainerTabla.js'
+import Card from './components/Card.js'
 
 const ahorros = (deposit) => {
   let deposito = deposit;
@@ -36,11 +36,23 @@ const formatter = new Intl.NumberFormat('en-US', {
 
 
 function App() {
-  const [balance, setBalance] = useState({});
-  const handleSubmit = ({ deposit }) => {
+  const [balance, setBalance] = useState([]);
+  const handleSubmit = ({ deposit, reference }) => {
     const val = ahorros(Number(deposit));
-    setBalance(val);
+    setBalance([...balance,
+      { 
+        referencia: reference,
+        deposito: formatter.format(val.deposito),
+        paraTodaLaVida: formatter.format(val.paraTodaLaVida),
+        gastosBasicos: formatter.format(val.gastosBasicos),
+        gastosCortoPlazo: formatter.format(val.gastosCortoPlazo),
+        gastosLargoPlazo: formatter.format(val.gastosLargoPlazo),
+        emergencias: formatter.format(val.emergencias)
+      }
+    ]);
   } 
+
+  console.log(balance);
 
   return (
     <div>
@@ -49,31 +61,45 @@ function App() {
         <Section>
           <Formik
           initialValues={{
-            deposit: ''
+            deposit: '',
+            reference: '',
           }}
           onSubmit={handleSubmit}
           validationSchema={Yup.object({
             deposit: Yup.number()
               .required('Requerido')
               .typeError('Debe ser un número')
-              .positive('Solo números positivos')
+              .positive('Solo números positivos'),
+            reference: Yup.string()
+              .required('Requerido')
+              .typeError('Debe ser un texto')
+              .min(3, 'Mínimo 3 caracteres')
+              .max(10, 'Máximo 10 caracteres')
+
           })}
           >
             <Form>
               <Input name="deposit" label="Depósito inicial" />
+              <Input name="reference" label="Referencia" />
               <Button type="submit">Calcular</Button>
             </Form>
           </Formik>
         </Section>
          <ContainerTabla>
-          <Tabla
-            deposito={formatter.format(balance.deposito)}
-            paraTodaLaVida={formatter.format(balance.paraTodaLaVida)}
-            gastosBasicos={formatter.format(balance.gastosBasicos)}
-            gastosCortoPlazo={formatter.format(balance.gastosCortoPlazo)}
-            gastosLargoPlazo={formatter.format(balance.gastosLargoPlazo)}
-            emergencias={formatter.format(balance.emergencias)}
-          />
+          {balance.length > 0 ? <div>
+            {balance.map(item => 
+              <ul key= {Math.random()}>
+                <li>Referencia:{item.referencia}</li>
+                <li>Deposito:{item.deposito}</li>
+                <li>Para toda la vida:{item.paraTodaLaVida}</li>
+                <li>Gastos Basicos:{item.gastosBasicos}</li>
+                <li>Gustos de corto plazo{item.gastosCortoPlazo}</li>
+                <li>Gustos de largo plazo:{item.gastosLargoPlazo}</li>
+                <li>Emergencias: {item.emergencias}</li>
+              </ul>
+            )}
+          </div> : ""}
+          <Card/>
         </ContainerTabla>
       </Container>
     </div>
