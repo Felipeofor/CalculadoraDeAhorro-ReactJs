@@ -1,3 +1,4 @@
+import Button from './Button.js';
 import styled from 'styled-components'
 
 const Div = styled.div`
@@ -22,7 +23,7 @@ const Div = styled.div`
         width: 100%;
         box-shadow: 10px 10px 10px rgb(0, 0, 0, 0.1);
         background-color: #eee;
-        border-radius: 10px;
+        border-radius: 5px;
     }
 `
 
@@ -32,7 +33,7 @@ const Card = (props) => {
         <Div className="card">
         <div className="card-header">
             <div className="card-header-title">
-            <h3>{props.referencia}</h3>
+            <h3>{props.referencia.toUpperCase()}</h3>
             </div>
             <div className="card-header-icon">
             <span className="icon">
@@ -41,7 +42,6 @@ const Card = (props) => {
             </div>
         </div>
         <div className="card-body">
-            <div className="card-div"><p>Referencia:</p><p>{props.referencia}</p></div>
             <div className="card-div"><p>Deposito:</p><p>{props.deposito}</p></div>
             <div className="card-div"><p>Para toda la vida:</p><p>{props.paraTodaLaVida}</p></div>
             <div className="card-div"><p>Gastos basicos:</p><p>{props.gastosBasicos}</p></div>
@@ -49,6 +49,7 @@ const Card = (props) => {
             <div className="card-div"><p>Gastos largo plazo:</p><p>{props.gastosLargoPlazo}</p></div>
             <div className="card-div"><p>Emergencias:</p><p>{props.emergencias}</p></div>
         </div>
+        <Button type="button" className="Delete">Eliminar</Button>
         </Div>
     )
     }

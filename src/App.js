@@ -35,6 +35,8 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 
+
+
 function App() {
   const [balance, setBalance] = useState([]);
   const handleSubmit = ({ deposit, reference }) => {
@@ -51,7 +53,6 @@ function App() {
       }
     ]);
   } 
-
   console.log(balance);
 
   return (
@@ -75,7 +76,6 @@ function App() {
               .typeError('Debe ser un texto')
               .min(3, 'Mínimo 3 caracteres')
               .max(10, 'Máximo 10 caracteres')
-
           })}
           >
             <Form>
