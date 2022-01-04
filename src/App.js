@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import shortid from 'shortid';
 import Input from './components/Input';
 import Button from './components/Button.js';
 import Container from './components/Container.js'
@@ -43,6 +44,7 @@ function App() {
     const val = ahorros(Number(deposit));
     setBalance([...balance,
       { 
+        id: shortid.generate(),
         referencia: reference,
         deposito: formatter.format(val.deposito),
         paraTodaLaVida: formatter.format(val.paraTodaLaVida),
@@ -53,7 +55,6 @@ function App() {
       }
     ]);
   } 
-  console.log(balance);
 
   return (
     <div>
@@ -76,8 +77,7 @@ function App() {
               .typeError('Debe ser un texto')
               .min(3, 'Mínimo 3 caracteres')
               .max(10, 'Máximo 10 caracteres')
-          })}
-          >
+          })}>
             <Form>
               <Input name="deposit" label="Depósito inicial" />
               <Input name="reference" label="Referencia" />
@@ -86,8 +86,9 @@ function App() {
           </Formik>
         </Section>
          <ContainerTabla>
-            {balance.map(item => <Card
-              key={Math.random()}
+            {balance.map(item => <Card 
+              key={item.id}
+              id={item.id}
               referencia = {item.referencia}
               deposito = {item.deposito}
               paraTodaLaVida = {item.paraTodaLaVida}

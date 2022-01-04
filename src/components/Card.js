@@ -48,8 +48,9 @@ const Card = (props) => {
             <div className="card-div"><p>Gastos corto plazo:</p><p>{props.gastosCortoPlazo}</p></div>
             <div className="card-div"><p>Gastos largo plazo:</p><p>{props.gastosLargoPlazo}</p></div>
             <div className="card-div"><p>Emergencias:</p><p>{props.emergencias}</p></div>
+            
         </div>
-        <Button type="button" className="Delete">Eliminar</Button>
+        <Button type="button" onClick={() => console.log(props.id)} className="Delete">Eliminar</Button>
         </Div>
     )
     }
