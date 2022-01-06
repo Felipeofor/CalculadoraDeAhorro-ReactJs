@@ -1,3 +1,5 @@
+import { useDispatch } from 'react-redux';
+import { deleteCard } from '../store/actions';
 import Button from './Button.js';
 import styled from 'styled-components'
 
@@ -28,7 +30,9 @@ const Div = styled.div`
 `
 
 
-const Card = (props) => {
+const Card = (props, {setBalance, balance}) => {
+    const dispatch = useDispatch();
+    
     return (
         <Div className="card">
         <div className="card-header">
@@ -48,9 +52,8 @@ const Card = (props) => {
             <div className="card-div"><p>Gastos corto plazo:</p><p>{props.gastosCortoPlazo}</p></div>
             <div className="card-div"><p>Gastos largo plazo:</p><p>{props.gastosLargoPlazo}</p></div>
             <div className="card-div"><p>Emergencias:</p><p>{props.emergencias}</p></div>
-            
+            <Button type="button" onClick={() => dispatch(deleteCard())}>Eliminar</Button>
         </div>
-        <Button type="button" onClick={() => console.log(props.id)} className="Delete">Eliminar</Button>
         </Div>
     )
     }

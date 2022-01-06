@@ -9,6 +9,7 @@ import Section from './components/Section.js'
 import Navbar from './components/Navbar.js'
 import ContainerTabla from './components/ContainerTabla.js'
 import Card from './components/Card.js'
+import { useDispatch, useSelector } from 'react-redux';
 
 const ahorros = (deposit) => {
   let deposito = deposit;
@@ -35,10 +36,12 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 });
 
-
-
-
 function App() {
+  const dispatch = useDispatch(); 
+  const selector = useSelector(state => state.balance);
+
+
+  console.log(selector);
   const [balance, setBalance] = useState([]);
   const handleSubmit = ({ deposit, reference }) => {
     const val = ahorros(Number(deposit));
@@ -54,6 +57,7 @@ function App() {
         emergencias: formatter.format(val.emergencias)
       }
     ]);
+    dispatch({ type: 'ADD_CARD', payload: val });
   } 
 
   return (
@@ -86,7 +90,7 @@ function App() {
           </Formik>
         </Section>
          <ContainerTabla>
-            {balance.map(item => <Card 
+            {selector.map(item => <Card 
               key={item.id}
               id={item.id}
               referencia = {item.referencia}
@@ -97,7 +101,7 @@ function App() {
               gastosLargoPlazo = {item.gastosLargoPlazo}
               emergencias = {item.emergencias}
             />
-            )}
+            )}   
         </ContainerTabla>
       </Container>
     </div>
