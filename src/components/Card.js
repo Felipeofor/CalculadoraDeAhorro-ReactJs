@@ -1,4 +1,5 @@
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteCard } from '../store/actions';
 import Button from './Button.js';
 import styled from 'styled-components'
@@ -30,9 +31,15 @@ const Div = styled.div`
 `
 
 
-const Card = (props, {setBalance, balance}) => {
+const Card = (props) => {
     const dispatch = useDispatch();
+    const selector = useSelector(state => state.balance);
     
+    useEffect(() => {
+        dispatch({type: 'SET_BALANCE', payload: selector});
+    }, [selector]);
+
+
     return (
         <Div className="card">
         <div className="card-header">
@@ -52,7 +59,7 @@ const Card = (props, {setBalance, balance}) => {
             <div className="card-div"><p>Gastos corto plazo:</p><p>{props.gastosCortoPlazo}</p></div>
             <div className="card-div"><p>Gastos largo plazo:</p><p>{props.gastosLargoPlazo}</p></div>
             <div className="card-div"><p>Emergencias:</p><p>{props.emergencias}</p></div>
-            <Button type="button" onClick={() => dispatch(deleteCard())}>Eliminar</Button>
+            <Button type="button" onClick={() => dispatch(deleteCard(props))}>Eliminar</Button>
         </div>
         </Div>
     )

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import shortid from 'shortid';
@@ -45,7 +45,7 @@ function App() {
   const [balance, setBalance] = useState([]);
   const handleSubmit = ({ deposit, reference }) => {
     const val = ahorros(Number(deposit));
-    setBalance([...balance,
+    setBalance([...selector,
       { 
         id: shortid.generate(),
         referencia: reference,
@@ -57,8 +57,23 @@ function App() {
         emergencias: formatter.format(val.emergencias)
       }
     ]);
-    dispatch({ type: 'ADD_CARD', payload: val });
   } 
+
+  useEffect(() => {
+    dispatch({ type: 'SET_BALANCE', payload: balance });
+  }, [balance]);
+
+  useEffect((function persistBalance() {
+    const data = JSON.parse(localStorage.getItem('balance'));
+    if (data) {
+      setBalance(data);
+    }
+  }), []);
+
+  useEffect(() => {
+    localStorage.setItem('balance', JSON.stringify(selector));
+  }, [selector]);
+
 
   return (
     <div>
