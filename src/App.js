@@ -11,14 +11,39 @@ import ContainerTabla from './components/ContainerTabla.js'
 import Card from './components/Card.js'
 import { useDispatch, useSelector } from 'react-redux';
 
-const ahorros = (deposit) => {
+const formStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  margin: '0 auto',
+  width: '100%',
+  padding: '0.5rem',
+}
+
+const formDivStyle = {
+  display: 'grid',
+  gridTemplateColumns: '200px 200px',
+  gridTemplateRows: 'auto auto',
+  gridGap: '1rem',
+  margin: '0 auto',
+  width: '100%',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+}
+
+const formDivthreeStyle = {
+  gridColumn: '1 / 3',
+}
+
+const ahorros = (deposit, paraTodaLaVidaInput, gastosBasicosInput, gastosCortoPlazoInput, gastosLargoPlazoInput, emergenciasInput) => {
   let deposito = deposit;
-  let paraTodaLaVida = deposit * 0.1;
+  let paraTodaLaVida = deposit * paraTodaLaVidaInput;
   let resto = deposit * 0.9;
-  let gastosBasicos = resto * 0.6;
-  let gastosCortoPlazo = resto * 0.1;
-  let gastosLargoPlazo = resto * 0.1;
-  let emergencias = resto * 0.2;
+  let gastosBasicos = resto * gastosBasicosInput;
+  let gastosCortoPlazo = resto * gastosCortoPlazoInput;
+  let gastosLargoPlazo = resto * gastosLargoPlazoInput;
+  let emergencias = resto * emergenciasInput;
   return ({
     paraTodaLaVida,
     gastosBasicos,
@@ -84,6 +109,11 @@ function App() {
           initialValues={{
             deposit: '',
             reference: '',
+            paraTodaLaVidaInput: 0.1,
+            gastosBasicosInput: 0.6,
+            gastosCortoPlazoInput: 0.1,
+            gastosLargoPlazoInput: 0.1,
+            emergenciasInput: 0.2,
           }}
           onSubmit={handleSubmit}
           validationSchema={Yup.object({
@@ -97,9 +127,64 @@ function App() {
               .min(3, 'Mínimo 3 caracteres')
               .max(10, 'Máximo 10 caracteres')
           })}>
-            <Form>
-              <Input name="deposit" label="Depósito inicial" />
-              <Input name="reference" label="Referencia" />
+            <Form style={formStyle}>
+              <div>
+                <Input 
+                name="deposit" 
+                label="Depósito inicial" 
+                />
+                <Input 
+                name="reference" 
+                label="Referencia" 
+                />
+              </div>
+              <div style={formDivStyle}>
+                <div>
+                <Input 
+                name="paraTodaLaVidaInput"
+                id="paraTodaLaVida" 
+                label="Para toda la vida" 
+                type="range"
+                />
+                <p>10%</p>
+                </div>
+                <div>
+                <Input
+                name="gastosBasicosInput"
+                id="gastosBasicos"
+                label="Gastos básicos"
+                type="range"
+                />
+                <p>60%</p>
+                </div> 
+                <div>
+                <Input
+                name="gastosCortoPlazoInput"
+                id="gastosCortoPlazo"
+                label="Gastos corto plazo"
+                type="range"
+                />
+                <p>10%</p>
+                </div>
+                <div>
+                <Input
+                name="gastosLargoPlazoInput"
+                id="gastosLargoPlazo"
+                label="Gastos largo plazo"
+                type="range"
+                />
+                <p>10%</p>
+                </div>
+              </div>
+              <div style={formDivthreeStyle}>
+                    <Input
+                    name="emergenciasInput"
+                    id="emergencias"
+                    label="Emergencias"
+                    type="range"
+                    />
+                    <p>20%</p>
+                  </div>
               <Button type="submit">Calcular</Button>
             </Form>
           </Formik>
